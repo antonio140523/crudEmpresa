@@ -11,7 +11,7 @@ import com.example.crudSpring.projetoCRUD.REPOSITORY.EmpresaRepository;
 @Service
 public class EmpresaService {
 
-  private EmpresaRepository empresaRepository;
+  private final EmpresaRepository empresaRepository;
     //metodo construtor da classe EmpresaServise
     //criando uma ligação com a Classe empresaRepository
     public EmpresaService(EmpresaRepository ligacaEmpresaRepository){
@@ -45,7 +45,18 @@ public class EmpresaService {
     }
 
     public Empresa editarDadoEmpresa(Long id, Empresa dadosAtualizados){
-      return null;
+      
+      Empresa empresaBuscada = buscarPorId(id).orElseThrow( 
+        () -> new IllegalArgumentException("Empresa não encontrada"));
+
+        empresaBuscada.setNome_empresa(dadosAtualizados.getNome_empresa());
+        empresaBuscada.setCnpj(dadosAtualizados.getCnpj());
+        empresaBuscada.setRamo(dadosAtualizados.getRamo());
+
+        return empresaRepository.save(empresaBuscada);
+    }
+    public List<Empresa> buscarempresasporNome(String nome_empresa){
+      return empresaRepository.findByNome_empresaContainingIgnoringCase(nome_empresa);
     }
 
 }
