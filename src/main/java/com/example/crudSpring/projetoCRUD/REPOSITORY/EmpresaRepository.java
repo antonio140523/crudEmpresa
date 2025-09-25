@@ -10,6 +10,6 @@ import com.example.crudSpring.projetoCRUD.ENTITY.Empresa;
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa, Long>{
 
-    List<Empresa> findByNome_empresaContainingIgnoringCase(String nome);
+    List<Empresa> findByNomeContainingIgnoringCase(String nome);
     
 }
