@@ -8,13 +8,11 @@ import com.example.crudSpring.projetoCRUD.SERVICE.EmpresaService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.engine.AttributeName;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-
-
 
 @Controller
 @RequestMapping("/empresaCTR")
@@ -26,7 +24,13 @@ public class EmpresaController {
     public EmpresaController(EmpresaService ligcaoEmpresaService) {
         this.empresaService = ligcaoEmpresaService;
     }
-    
+
+    @GetMapping("/listarTodasEmpresas")
+    public String listarEmpresas(Model oModel) {
+        oModel.addAttribute("empresas", empresaService.findAll());
+        return "listarEmpresas";
+    }
+
     @GetMapping("/viewCadEmpresa")
     public String mostrarForCadastro(Model oModel) {
         oModel.addAttribute("empresa", new Empresa());
@@ -35,17 +39,12 @@ public class EmpresaController {
     }
 
     @PostMapping("/salvarEmpresa")
-    public String salvarEmpresa(@ModelAttribute Empresa objEmpresa){
-        
+    public String salvarEmpresa(@ModelAttribute Empresa objEmpresa) {
+
         empresaService.cadastrarEmpresa(objEmpresa);
 
-        return "redirect:/empresaCTR/viewCadEmpresa";
+        return "redirect:/empresaCTR/listarTodasEmpresas";
 
-                                                                      
     }
-    
-    
-    }
-    
-    
 
+}
