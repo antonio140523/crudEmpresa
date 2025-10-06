@@ -7,6 +7,7 @@ import com.example.crudSpring.projetoCRUD.ENTITY.Empresa;
 import com.example.crudSpring.projetoCRUD.SERVICE.EmpresaService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.engine.AttributeName;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,4 +48,26 @@ public class EmpresaController {
 
     }
 
-}
+    @GetMapping("/editar/{id}")
+    public String formEditar(@PathVariable("id") long id, Model oModel) {
+        
+        Empresa objEmpresa = empresaService.buscarPorId(id)
+        .orElseThrow(() -> new
+        IllegalArgumentException("Empresa não encontrada"));
+
+        oModel.addAttribute("empresaEditar", objEmpresa);
+        return "editarEmpresa";
+
+    }
+
+    @PostMapping("/atualizarEmpresa/{id}")
+    public String atualizarEmpresa(@PathVariable Long id,
+    @ModelAttribute Empresa objEmpresaAtualizado) {
+
+        return "redirect:/empresaCTR/listarTodasEmpresas";
+    }
+        
+    }
+    
+
+
