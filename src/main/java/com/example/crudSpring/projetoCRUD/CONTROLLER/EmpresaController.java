@@ -79,9 +79,28 @@ public class EmpresaController {
         return "redirect:/empresaCTR/listarTodasEmpresas";
     }
 
+
+    @GetMapping("/formBuscarNome")
+    public String mostrarFormBusca(Model oModel){
+        return "buscarEmpresaNome";
+    }
+    
+    
+
     @GetMapping("/buscarEmpresaNome")
-    public List<Empresa> executarBuscaPorNome(@RequestParam("nome") String nome_empresa, Model oModel) {
-        return empresaService.buscarempresasporNome(nome_empresa);
+    public String executarBuscaPorNome(@RequestParam("nome") String nome_empresa, Model oModel) {
+
+// ! = simbolo de diferente de null.
+// null = nao ter espaço.
+
+            if(nome_empresa !=null && !nome_empresa.isEmpty()) {
+            oModel.addAttribute("empresaNome",
+            empresaService.buscarempresasporNome(nome_empresa));    
+
+            }
+        return "buscarEmpresaNome";
+
+        
     }
     
     
